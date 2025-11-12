@@ -1,0 +1,4 @@
+google-api-python-client>=2.132.0
+google-auth-oauthlib>=1.2.0
+openai>=1.52.0
+python-quickbooks>=0.9.6
