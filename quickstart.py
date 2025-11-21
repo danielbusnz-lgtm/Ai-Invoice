@@ -14,7 +14,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from pathlib import Path
 from pdf_parser import extract_text_from_pdf
-from qb_service.quickstart1 import InvoiceDraft, InvoiceLine, QuickBooksInvoiceService
+from quickstart1 import InvoiceDraft, InvoiceLine, QuickbooksInvoiceService
 from attachments import fetch_messages_with_attachments
 import time
 
@@ -105,7 +105,7 @@ class LabelSort(BaseModel):
 
 
 class InvoiceLinePayload(BaseModel):
-    item_name: str
+    item: str
     rate: float
     quantity: float = 1.0
     description: Optional[str] = None
@@ -117,7 +117,10 @@ class InvoicePayload(BaseModel):
     items: List[InvoiceLinePayload]
     total_amount: Optional[float] = None
 
-def ai_invoice(message_text: str,attachments:list = None, client: Optional[OpenAI] = None):
+def ai_invoice(message_text: str, attachments: list = None, client: Optional[OpenAI] = None):
+     if client is None:
+         client = OpenAI()
+
      context= message_text
 
      if attachments:
@@ -141,7 +144,10 @@ def ai_invoice(message_text: str,attachments:list = None, client: Optional[OpenA
 
 
 
-def build_invoice_draft(message_text: str, client=OpenAI, attachments:list=None) -> Optional[InvoiceDraft]:
+def build_invoice_draft(message_text: str, client: Optional[OpenAI] = None, attachments:list=None) -> Optional[InvoiceDraft]:
+    if client is None:
+        client = OpenAI()
+
     context= message_text
     if attachments:
         context +="\n\nAttachments found:\n"
@@ -176,13 +182,13 @@ def build_invoice_draft(message_text: str, client=OpenAI, attachments:list=None)
 
     line_items = [
         InvoiceLine(
-            item_name=item.item_name,
+            item=item.item,
             rate=item.rate,
             quantity=item.quantity,
             description=item.description,
         )
         for item in payload.items
-        if item.item_name and item.rate is not None
+        if item.item and item.rate is not None
     ]
     if not line_items or not payload.vendor_display_name:
         return None

@@ -1,6 +1,33 @@
-__pycache__/
-*.pyc
-token.json
-myenv/
+# Virtual environments
 venv/
+venv_linux/
+myenv/
+env/
+ENV/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environment variables
 .env
+.env.local
+CLIENT_ID
+CLIENT_SECRET
+
+# Google OAuth credentials
+token.json
+credentials.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

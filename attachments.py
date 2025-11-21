@@ -14,7 +14,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from pathlib import Path
 from pdf_parser import extract_text_from_pdf
-from qb_service.quickstart import InvoiceDraft, InvoiceLine, QuickBooksInvoiceService
+from quickstart1 import InvoiceDraft, InvoiceLine, QuickbooksInvoiceService
 import pdfplumber
 
 
@@ -39,7 +39,7 @@ def load_creds():
       creds.refresh(Request())
     else:
 
-        installedappflow.from_client_secrets_file(
+        flow = InstalledAppFlow.from_client_secrets_file(
           "credentials.json", SCOPES
         )
         creds = flow.run_local_server(port=0)
